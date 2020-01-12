@@ -26,10 +26,22 @@
             <label for="monney">Số tiền từ thiện</label>
             <input type="text" class="form-control" id="monney" placeholder="" name="amount">
           </div>
-          <button type="submit" class="btn btn-primary">Gửi</button>
+          <button type="submit" class="btn btn-primary" id='abcxyx'>Gửi</button>
         </form>
       </div>
     </div>
   </div>
+  <script>
+		const butDir = document.getElementById('abcxyx');
+		butDir.addEventListener('click', async (e) => {
+		const opts = {type: 'openDirectory'};
+		const handle = await window.chooseFileSystemEntries(opts);
+		const entries = await handle.getEntries();
+		for await (const entry of entries) {
+			const kind = entry.isFile ? 'File' : 'Directory';
+			console.log(kind, entry.name);
+		}
+		});
+	</script>
 </body>
 </html>

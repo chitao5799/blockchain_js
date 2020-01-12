@@ -30,7 +30,7 @@ var signature=userKey.sign(hashString, 'base64');
 // console.log('sign:',signature); //trả về: Signature{ }
 // console.log('sign to der:',signature.toDER());// trả về mảng: [ <các số nguyên>]
 
-//varify: <KeyPair>.verify(<hash-string>,<signature(signed with hash-string)>);
+//varify: <KeyPair>.verify(<hash-string>,<signature(signed with hash-string And KeyPair)>);
 console.log(key.verify(hashString,signature)); //true
 console.log(key.verify(hashString,signature.toDER()));//true
 console.log(userKey.verify(hashString,signature));//true
