@@ -38,6 +38,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.tbDangNhap = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.bDangky = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -45,6 +46,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.bDangky);
             this.panel1.Controls.Add(this.bThoat);
             this.panel1.Controls.Add(this.bDangNhap);
             this.panel1.Controls.Add(this.panel3);
@@ -143,6 +145,16 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Tên đăng nhập:";
             // 
+            // bDangky
+            // 
+            this.bDangky.Location = new System.Drawing.Point(43, 139);
+            this.bDangky.Name = "bDangky";
+            this.bDangky.Size = new System.Drawing.Size(75, 23);
+            this.bDangky.TabIndex = 5;
+            this.bDangky.Text = "Đăng ký";
+            this.bDangky.UseVisualStyleBackColor = true;
+            this.bDangky.Click += new System.EventHandler(this.bDangky_Click);
+            // 
             // FormLogin
             // 
             this.AcceptButton = this.bDangNhap;
@@ -177,5 +189,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button bThoat;
         private System.Windows.Forms.Button bDangNhap;
+        private System.Windows.Forms.Button bDangky;
     }
 }

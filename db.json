@@ -278,6 +278,39 @@
       "previousHash": "008d8a183cac66f31fc1f38f1b5a9737b0897525bb8e68089586851667e1d48c",
       "hash": "00a61501191b8f1034049d39e657f6ea82bdb323f7c20425f6153829e33a3a57",
       "nonce": 97
+    },
+    {
+      "timestamp": "16/0/2020",
+      "transactions": [
+        {
+          "fromAdress": "0497b3064e152feb471e02a5e96a00697a4472b7e7d504767951a03fcc13f6c8c5c9f06ab28d13277a86403721ad20ba4c0db2a84b87c0361b21a158d57236da3a",
+          "toAdress": "04af29dbe34623f0327a4fbc2cc40508b963c3cdb9ae786f20eca0fdda53cb5035783c22ca84a5c8d0b0afbd9ed702c9081d757f6e56b73aed27cc904df39928a4",
+          "amount": 2345,
+          "signature": "30440220495b1130a4ecfb77346ddd13c313f7d225402d8e73f2dd33de4f03c5603b5e0202204e493e9a7245a92434afa9e8425249feace8a04894f788e6f09e7505817707be"
+        }
+      ],
+      "previousHash": "5c50be2972c4b7f4f874596f41ac21f1c0e132478916ba3012a4db9624d7f6ac",
+      "hash": "00745e237fcddb3db72022bee3ae3f3a393cb430273b24b92721a3e952ac1767",
+      "nonce": 51
+    },
+    {
+      "timestamp": "16/0/2020",
+      "transactions": [
+        {
+          "fromAdress": null,
+          "toAdress": "0497b3064e152feb471e02a5e96a00697a4472b7e7d504767951a03fcc13f6c8c5c9f06ab28d13277a86403721ad20ba4c0db2a84b87c0361b21a158d57236da3a",
+          "amount": 100
+        },
+        {
+          "fromAdress": "0497b3064e152feb471e02a5e96a00697a4472b7e7d504767951a03fcc13f6c8c5c9f06ab28d13277a86403721ad20ba4c0db2a84b87c0361b21a158d57236da3a",
+          "toAdress": "04af29dbe34623f0327a4fbc2cc40508b963c3cdb9ae786f20eca0fdda53cb5035783c22ca84a5c8d0b0afbd9ed702c9081d757f6e56b73aed27cc904df39928a4",
+          "amount": 2345,
+          "signature": "30440220495b1130a4ecfb77346ddd13c313f7d225402d8e73f2dd33de4f03c5603b5e0202204e493e9a7245a92434afa9e8425249feace8a04894f788e6f09e7505817707be"
+        }
+      ],
+      "previousHash": "00745e237fcddb3db72022bee3ae3f3a393cb430273b24b92721a3e952ac1767",
+      "hash": "00358df456b1b7b1aaf70ba4b1b771c8d798e3d607393cad4547a1fbf68729e4",
+      "nonce": 119
     }
   ]
 }

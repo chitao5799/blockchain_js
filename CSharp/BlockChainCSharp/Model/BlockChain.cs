@@ -14,16 +14,20 @@ namespace BlockChainCSharp.Model
         List<Block> chain;
         List<UserBlock> userChain;
 
+        internal List<UserBlock> UserChain { get => userChain; set => userChain = value; }
+        internal List<Block> Chain { get => chain; set => chain = value; }
+        internal List<Transaction> PendingTransactions { get => pendingTransactions; set => pendingTransactions = value; }
+
         public BlockChain()
         {
-            this.chain = new List<Block>();
+            this.Chain = new List<Block>();
             this.difficulty = 2;
-            this.pendingTransactions = new List<Transaction>();
+            this.PendingTransactions = new List<Transaction>();
             this.miningReward = 100;
-            this.userChain = new List<UserBlock>();
+            this.UserChain = new List<UserBlock>();
 
-            this.chain.Add(this.createGenesisBlock());
-            this.userChain.Add(createGenesisUser());
+            this.Chain.Add(this.createGenesisBlock());
+            this.UserChain.Add(createGenesisUser());
         }
         public Block createGenesisBlock()
         {
@@ -39,11 +43,11 @@ namespace BlockChainCSharp.Model
         }
         public Block GetLatestBlock()
         {
-            return chain[chain.Count - 1];
+            return Chain[Chain.Count - 1];
         }
         public UserBlock getLastUser()
         {
-            return this.userChain[this.userChain.Count - 1];
+            return this.UserChain[this.UserChain.Count - 1];
         }
         public void MinePendingTransactions(String miningRewardAdress)
         {
@@ -51,13 +55,13 @@ namespace BlockChainCSharp.Model
             DateTime date = DateTime.Now;
             string curentTime = Convert.ToString(date.Day) + '/' + Convert.ToString(date.Month) + '/' + Convert.ToString(date.Year);
 
-            Block block = new Block(curentTime, this.pendingTransactions,GetLatestBlock().hash);
+            Block block = new Block(curentTime, this.PendingTransactions,GetLatestBlock().hash);
 
             block.mineBlock(this.difficulty);
-            this.chain.Add(block);
+            this.Chain.Add(block);
 
-            this.pendingTransactions.Clear();
-            this.pendingTransactions.Add(new Transaction(null, miningRewardAdress, this.miningReward));
+            this.PendingTransactions.Clear();
+            this.PendingTransactions.Add(new Transaction(null, miningRewardAdress, this.miningReward));
         }
         public void addTransaction(Transaction transaction) 
         {
@@ -70,14 +74,14 @@ namespace BlockChainCSharp.Model
             {
                 throw new System.Exception("Cannot add invalid transaction");
             }
-            this.pendingTransactions.Add(transaction);
+            this.PendingTransactions.Add(transaction);
         }
         public int getBalanceOfAdress(string public_key_address)
         {
 
             int balance = 0;
 
-            foreach (Block block in this.chain)
+            foreach (Block block in this.Chain)
             {
 		        foreach(Transaction tran in block.transactions)
                 {
@@ -93,10 +97,10 @@ namespace BlockChainCSharp.Model
             return balance;
         }
         public bool isChainValid() {
-	        for(int i = 1; i< this.chain.Count; i++) {
-                Block curentBlock = this.chain[i];
+	        for(int i = 1; i< this.Chain.Count; i++) {
+                Block curentBlock = this.Chain[i];
 
-                Block previousBlock = this.chain[i - 1];
+                Block previousBlock = this.Chain[i - 1];
 
 		        if(!curentBlock.hasValidTransactions()) {
                     return false;
@@ -116,15 +120,15 @@ namespace BlockChainCSharp.Model
 
             UserBlock userBlock = new UserBlock(user,this.getLastUser().hash);
             userBlock.mineBlock(this.difficulty);
-            this.userChain.Add(userBlock);
+            this.UserChain.Add(userBlock);
         }
         public bool isValidUserData() 
         {
-	        for(int i = 1; i< this.userChain.Count; i++) 
+	        for(int i = 1; i< this.UserChain.Count; i++) 
             {
-                UserBlock curentBlock = this.userChain[i];
+                UserBlock curentBlock = this.UserChain[i];
 
-                UserBlock previousBlock = this.userChain[i - 1];
+                UserBlock previousBlock = this.UserChain[i - 1];
 
 		        if(!curentBlock.hasValid()) {
                     return false;

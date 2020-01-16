@@ -36,7 +36,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.bDangKy = new System.Windows.Forms.Button();
             this.bThoat = new System.Windows.Forms.Button();
-            this.bDanhNhap = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -62,6 +61,7 @@
             this.tbXacNhanMK.Name = "tbXacNhanMK";
             this.tbXacNhanMK.Size = new System.Drawing.Size(184, 20);
             this.tbXacNhanMK.TabIndex = 3;
+            this.tbXacNhanMK.UseSystemPasswordChar = true;
             // 
             // label2
             // 
@@ -78,6 +78,7 @@
             this.tbMatKhau.Name = "tbMatKhau";
             this.tbMatKhau.Size = new System.Drawing.Size(184, 20);
             this.tbMatKhau.TabIndex = 5;
+            this.tbMatKhau.UseSystemPasswordChar = true;
             // 
             // label3
             // 
@@ -108,22 +109,11 @@
             this.bThoat.UseVisualStyleBackColor = true;
             this.bThoat.Click += new System.EventHandler(this.bThoat_Click);
             // 
-            // bDanhNhap
-            // 
-            this.bDanhNhap.Location = new System.Drawing.Point(25, 102);
-            this.bDanhNhap.Name = "bDanhNhap";
-            this.bDanhNhap.Size = new System.Drawing.Size(75, 23);
-            this.bDanhNhap.TabIndex = 9;
-            this.bDanhNhap.Text = "Đăng Nhập";
-            this.bDanhNhap.UseVisualStyleBackColor = true;
-            this.bDanhNhap.Click += new System.EventHandler(this.bDanhNhap_Click);
-            // 
             // FormSignUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(359, 147);
-            this.Controls.Add(this.bDanhNhap);
             this.Controls.Add(this.bThoat);
             this.Controls.Add(this.bDangKy);
             this.Controls.Add(this.tbMatKhau);
@@ -150,6 +140,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button bDangKy;
         private System.Windows.Forms.Button bThoat;
-        private System.Windows.Forms.Button bDanhNhap;
     }
 }

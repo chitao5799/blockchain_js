@@ -15,12 +15,15 @@ namespace BlockChainCSharp.Model
         String private_key, pub_key;
         Byte[] signature;
 
+        public string Username { get => username; set => username = value; }
+        public bool Is_charity { get => is_charity; set => is_charity = value; }
+
         public User(String username, String password, double money, bool is_charity)
         {
-            this.username = username;
+            this.Username = username;
             this.password = password;
             this.money = money;
-            this.is_charity = is_charity;
+            this.Is_charity = is_charity;
             this.createKeyPair();
         }
         public void createKeyPair()
@@ -33,7 +36,7 @@ namespace BlockChainCSharp.Model
         }
         public byte[] CalculateBytesHash()
         {
-            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(this.username + this.password + this.money);
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(this.Username + this.password + this.money);
             SHA1Managed hash = new SHA1Managed();
             byte[] outputBytesHash = hash.ComputeHash(inputBytes);
             return outputBytesHash;
