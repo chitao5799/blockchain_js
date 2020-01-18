@@ -12,6 +12,7 @@ namespace BlockChainCSharp.Model
         public String fromAdress, toAdress;
         public int amount;
         Byte[] signature;
+
         public Transaction(String fromAdress,String toAdress,int amount)
         {
             this.fromAdress = fromAdress;

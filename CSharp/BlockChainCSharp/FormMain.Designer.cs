@@ -176,6 +176,7 @@
             this.bGui.TabIndex = 5;
             this.bGui.Text = "Gửi";
             this.bGui.UseVisualStyleBackColor = true;
+            this.bGui.Click += new System.EventHandler(this.bGui_Click);
             // 
             // label2
             // 

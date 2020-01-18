@@ -20,7 +20,7 @@ namespace BlockChainCSharp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             BlockChain blockChain = new BlockChain();
-            Application.Run( new FormLogin(blockChain));
+            Application.Run( new FormLogin(ref blockChain));
 
             //BlockChain blockChain = new BlockChain();
             //RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
