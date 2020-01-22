@@ -19,7 +19,9 @@ String hashed = Convert.ToBase64String(outputBytesHash);
 Console.WriteLine("hashed là:{0}", hashed);
 RSACryptoServiceProvider rsaCSP = new RSACryptoServiceProvider();
   // byte[] signedd = rsaCSP.SignHash(outputBytesHash, CryptoConfig.MapNameToOID("SHA1"));
-byte[] signedd = rsaCSP.SignHash(outputBytesHash, CryptoConfig.MapNameToOID(publicOnlyKeyXML));
+
+//byte[] signedd = rsaCSP.SignHash(outputBytesHash, CryptoConfig.MapNameToOID(publicOnlyKeyXML)); //signed bằng private hay public key thì khi verify đều ra true
+byte[] signedd = rsaCSP.SignHash(outputBytesHash, CryptoConfig.MapNameToOID(publicPrivateKeyXML));
 Console.WriteLine("đã sign:{0}", signedd);
 Console.WriteLine("verify là:{0}", rsaCSP.VerifyHash(outputBytesHash, CryptoConfig.MapNameToOID(publicOnlyKeyXML), signedd));
 Console.WriteLine("hash lại :{0}", Convert.ToBase64String(hash.ComputeHash(inputBytes)));
@@ -29,7 +31,8 @@ Console.WriteLine("hash lại :{0}", Convert.ToBase64String(hash.ComputeHash(inp
 // hashed là:Kq5sNclPz7QV2+lfQIuc6R7oRu0=
 // dã sign:System.Byte[]
 // verify là:True
-// hash l?i :Kq5sNclPz7QV2+lfQIuc6R7oRu0=      
+// hash l?i :Kq5sNclPz7QV2+lfQIuc6R7oRu0=   
+/*
 //======-------------
 //Transaction.cs
 using System;
@@ -430,3 +433,4 @@ namespace BlockchainDemo
         }
     }
 }
+*/

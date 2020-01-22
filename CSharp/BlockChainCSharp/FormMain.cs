@@ -16,7 +16,7 @@ namespace BlockChainCSharp
         {
         BlockChain blockChain;
         String userNameLogined;
-        public FormMain(ref BlockChain bc,String ulogined)
+        public FormMain( BlockChain bc,String ulogined)
         {
             InitializeComponent();
             this.blockChain = bc;
@@ -115,13 +115,16 @@ namespace BlockChainCSharp
             int amount = Convert.ToInt32(tbTien.Text);
             //Console.WriteLine("amount nhập trong textbox:{0}", amount);
             Transaction tranc = new Transaction(fromAdress, toAdress, amount);
-            tranc.signTransaction(userSend.Pub_key);
+            tranc.signTransaction(userSend.Private_key);
+            //tranc.signTransaction(userSend.Pub_key);
             blockChain.addTransaction(tranc);
             blockChain.MinePendingTransactions(fromAdress);
 
             userSend.Money += blockChain.getBalanceOfAdress(fromAdress);
             userReceive.Money += blockChain.getBalanceOfAdress(toAdress);
-            //Console.WriteLine("from adress:{0}", fromAdress);
+            Console.WriteLine("from adress hay public key của usersend:{0}", fromAdress);
+            Console.WriteLine("private key của user send:{0}",userSend.Private_key);
+            Console.WriteLine("public key của user charity:{0}",userReceive.Pub_key);
             //Console.WriteLine("to adress:{0}", toAdress);
             //Console.WriteLine("user send money:{0}", userSend.Money);
             //Console.WriteLine("user receive money:{0}", userReceive.Money);
@@ -129,13 +132,16 @@ namespace BlockChainCSharp
 
             //blockChain.createUser(userSend);
             //blockChain.createUser(userReceive);
-            
+
             lvCharity.Items.Clear();
+            Console.WriteLine("so luong chain:{0}", blockChain.Chain.Count);
             foreach(Block block in blockChain.Chain)
             {
-               
+                Console.WriteLine("VAO FOR NGOAI.");
+                Console.WriteLine("so luong trans trong chain:{0}", block.transactions.Count);
                 foreach(Transaction transaction in block.transactions)
                 {
+                    Console.WriteLine("VAO FOR TRONG.");
                     ListViewItem item = new ListViewItem();
                     //if(transaction.fromAdress==fromAdress || transaction.toAdress == fromAdress)//liệt kê các transaction liên quan tới user đã login
                     //{

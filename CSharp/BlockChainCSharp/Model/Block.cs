@@ -20,6 +20,15 @@ namespace BlockChainCSharp.Model
             this.previousHash = previousHash;
             this.hash = this.calculateHash();
             this.nonce = 0;
+            Console.WriteLine("-----------------transactions in trans in create block---------------");
+            foreach (Transaction i in this.transactions)
+            {
+                Console.WriteLine(" from adress:{0}", i.fromAdress);
+                Console.WriteLine(" to adress:{0}", i.toAdress);
+                Console.WriteLine(" mount:{0}", i.amount);
+                Console.WriteLine(" ------------------------------");
+            }
+            Console.WriteLine("-----------------end   ----transactions in in create block ---------------");
         }
         public String calculateHash()
         {

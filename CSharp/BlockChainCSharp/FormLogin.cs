@@ -16,7 +16,7 @@ namespace BlockChainCSharp
         partial class FormLogin : Form
     {
         BlockChain blockChain;
-        public FormLogin(ref BlockChain bc)
+        public FormLogin(BlockChain bc)
         {
             InitializeComponent();
             this.blockChain = bc;
@@ -63,7 +63,7 @@ namespace BlockChainCSharp
                     }
 
                 }            
-                FormMain formMain = new FormMain(ref blockChain,tbDangNhap.Text);
+                FormMain formMain = new FormMain( blockChain,tbDangNhap.Text);
                 this.Hide();
                 formMain.ShowDialog(); //showdialog là thằng này phải sử lý song và tắt đi thì mới chạy câu lệnh dưới để show.
                 this.tbDangNhap.Text = "";
@@ -81,7 +81,7 @@ namespace BlockChainCSharp
 
         private void bDangky_Click(object sender, EventArgs e)
         {
-            FormSignUp fSignUP = new FormSignUp(ref blockChain);
+            FormSignUp fSignUP = new FormSignUp( blockChain);
             this.Hide();
             fSignUP.ShowDialog();
             this.Show();

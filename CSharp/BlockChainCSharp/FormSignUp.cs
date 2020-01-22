@@ -16,7 +16,7 @@ namespace BlockChainCSharp
       partial   class FormSignUp : Form
     {
         BlockChain blockChain;
-        public FormSignUp(ref BlockChain bc)
+        public FormSignUp( BlockChain bc)
         {
             InitializeComponent();
             this.blockChain = bc;

@@ -36,6 +36,8 @@ namespace BlockChainCSharp.Model
             string publicOnlyKeyXML = rsa.ToXmlString(false);
             this.Private_key = publicPrivateKeyXML;
             this.Pub_key = publicOnlyKeyXML;
+            Console.WriteLine("private key đc tao khi tao moi user:{0}", this.Private_key);
+            Console.WriteLine("public key đc tao khi tao moi user:{0}", this.Pub_key);
         }
         public byte[] CalculateBytesHash()
         {

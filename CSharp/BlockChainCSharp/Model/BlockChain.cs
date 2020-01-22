@@ -54,14 +54,38 @@ namespace BlockChainCSharp.Model
 
             DateTime date = DateTime.Now;
             string curentTime = Convert.ToString(date.Day) + '/' + Convert.ToString(date.Month) + '/' + Convert.ToString(date.Year);
-
+            Console.WriteLine("so luong trans trong pending de cho vao block de mine:{0}", this.pendingTransactions.Count);
             Block block = new Block(curentTime, this.PendingTransactions,GetLatestBlock().hash);
 
             block.mineBlock(this.difficulty);
+            Console.WriteLine("-----------------========transactions in block sau mine truoc add chain ---------------");
+            foreach (Transaction i in block.transactions)
+            {
+                Console.WriteLine(" from adress:{0}", i.fromAdress);
+                Console.WriteLine(" to adress:{0}", i.toAdress);
+                Console.WriteLine(" mount:{0}", i.amount);
+                Console.WriteLine(" ------------------------------");//ở đây vẫn hiện đúng  các transaction
+            }
+            Console.WriteLine("-----------------===========end   ----transactionsin block sau mine truoc add chain ---------------");
             this.Chain.Add(block);
 
             this.PendingTransactions.Clear();
             this.PendingTransactions.Add(new Transaction(null, miningRewardAdress, this.miningReward));
+            Console.WriteLine("===========transactions in chain  after mine===================");
+            foreach(Block b in this.Chain)
+            {
+               
+                 foreach (Transaction i in b.transactions)
+                    {
+                        Console.WriteLine(" from adress:{0}", i.fromAdress);
+                        Console.WriteLine(" to adress:{0}", i.toAdress);
+                        Console.WriteLine(" mount:{0}", i.amount);
+                        Console.WriteLine(" ------------------------------");
+                    }
+                Console.WriteLine(" -------------==============-----------------");//ở đây hiện sai các transaction
+            }
+           
+            Console.WriteLine("=====================end   ----transactions in chain =============-");
         }
         public void addTransaction(Transaction transaction) 
         {
@@ -75,6 +99,15 @@ namespace BlockChainCSharp.Model
                 throw new System.Exception("Cannot add invalid transaction");
             }
             this.PendingTransactions.Add(transaction);
+            Console.WriteLine("-----------------transactions in pending ---------------");
+            foreach(Transaction i in this.pendingTransactions)
+            {
+                Console.WriteLine(" from adress:{0}", i.fromAdress);
+                Console.WriteLine(" to adress:{0}", i.toAdress);
+                Console.WriteLine(" mount:{0}", i.amount);
+                Console.WriteLine(" ------------------------------");
+            }
+            Console.WriteLine("-----------------end   ----transactions in pending ---------------");
         }
         public int getBalanceOfAdress(string public_key_address)
         {
@@ -82,7 +115,8 @@ namespace BlockChainCSharp.Model
             int balance = 0;
 
             foreach (Block block in this.Chain)
-            {
+            { 
+
 		        foreach(Transaction tran in block.transactions)
                 {
                     if (tran.fromAdress == public_key_address) {
