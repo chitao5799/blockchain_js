@@ -1,118 +1,76 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <!-- integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" -->
+    <script src="jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<title>home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>home</title>
 </head>
+
 <body>
-	<%- include('menuLogined'); -%>
-	<div class="container" style="min-height:800px">
-		<div class="row">
-			<div class="col-md-3">
+    <%- include('menuLogined'); -%>
+        <div class="container" style="min-height:800px">
+            <div class="row">
+                <div class="col-md-3">
 
-				<h3>xin chào: <%= user.username  %></h3>
-				<h4>public key: <%= user.pub_key  %></h4>
-				<h5 id="balance">số dư tài khoản: <%= user.money  %></h5>
-				<h5>số tiền bạn đã từ thiện: 0</h5>
-				<div id="ghifile" style="border: 1px solid black;cursor: pointer;">ghifile</div>
-				<input id="fileItem" type="file">
-			</div>
-		</div>
+                    <h3>xin chào:
+                        <%= user.username  %>
+                    </h3>
+                    <h4>public key:
+                        <%= user.pub_key  %>
+                    </h4>
+                    <h5 id="balance">số dư tài khoản:
+                        <%= user.money  %>
+                    </h5>
+                    <h5>số tiền bạn đã từ thiện:
+                        <%= locals.tienDaTuThien  %>
+                    </h5>
+                </div>
+            </div>
 
-		<div class="row">
-			<div class="col-md-3">
-				<button id="btnCharity">
+            <div class="row">
+                <div class="col-md-3">
+                    <button id="btnCharity">
 					<a href="/charity">Bắt đầu từ thiện</a>
 				</button>
-			</div>
-		</div>
+                </div>
+            </div>
 
-		<div class="row">
-			<div class="col-md-12">
-				<table class="table table-bordered">
-					<thead>
-						<th>ngày</th>
-						<th>từ</th>
-						<th>tới</th>
-						<th>số tiền</th>					
-					</thead>
-					<tbody>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <th>ngày</th>
+                            <th>từ</th>
+                            <th>tới</th>
+                            <th>số tiền</th>
+                        </thead>
+                        <tbody>
 
 
-					</tbody>
+                        </tbody>
 
-				</table>
-					<script type="text/javascript">
-						<%
+                    </table>
+                    <script type="text/javascript">
+                        <%
 							if(locals.blockChain) {
 						 		for(i = 1; i < blockChain.length; i++) {
-						 			blockChain[i].transactions.forEach(function(tran) { %> 
-						 				var body = '<tr><td>'+'<%= blockChain[i].timestamp %>' +'</td><td>' + '<%= tran.fromAdress %>'
-						 			 	+"</td><td>" + '<%= tran.toAdress %>' +  '</td><td>' + '<%= tran.amount %>' + '</td></tr>'
-						 				$('tbody').append(body)								
-										
-						<% })}} %>
-					</script>
-			</div>
-		</div>
-	</div>
-	<%- include('footer'); -%>
-	<script>
-		// var file = document.getElementById('fileItem').files[0];
-		// alert(file.name);
-		$('#ghifile').click(function(){
-			alert('đã click');
-			// var fso = new ActiveXObject("Scripting.FileSystemObject");
-			// // 2=overwrite, true=create if not exist, 0 = ASCII
-			// var FileObject = fso.OpenTextFile("C:\\Sachin.txt", 2, true,0);
-			// FileObject.write("File handling in Javascript");
-			// FileObject.close();
+						 			blockChain[i].transactions.forEach(function(tran) { %>
+                        var body = '<tr><td>' + '<%= blockChain[i].timestamp %>' + '</td><td>' + '<%= tran.fromAdress %>' +
+                            "</td><td>" + '<%= tran.toAdress %>' + '</td><td>' + '<%= tran.amount %>' + '</td></tr>'
+                        $('tbody').append(body)
 
-			// window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-			// var fs = null;
-
-			// window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function (filesystem) {
-			// 	fs = filesystem;
-			// 	console.log('có chạy vào đây');
-			// }, errorHandler);
-
-			// fs.root.getFile('C:\\Hello.txt', {
-			// 	create: true
-			// }, null, errorHandler);
-
-			// function errorHandler(e) {
-			// var msg = '';
-
-			// switch (e.code) {
-			// 	case FileError.QUOTA_EXCEEDED_ERR:
-			// 	msg = 'QUOTA_EXCEEDED_ERR';
-			// 	break;
-			// 	case FileError.NOT_FOUND_ERR:
-			// 	msg = 'NOT_FOUND_ERR';
-			// 	break;
-			// 	case FileError.SECURITY_ERR:
-			// 	msg = 'SECURITY_ERR';
-			// 	break;
-			// 	case FileError.INVALID_MODIFICATION_ERR:
-			// 	msg = 'INVALID_MODIFICATION_ERR';
-			// 	break;
-			// 	case FileError.INVALID_STATE_ERR:
-			// 	msg = 'INVALID_STATE_ERR';
-			// 	break;
-			// 	default:
-			// 	msg = 'Unknown Error';
-			// 	break;
-			// };
-
-			// console.log('Error: ' + msg);
-			// }
-			
-		});
-	</script>
+                        <% })}} %>
+                    </script>
+                </div>
+            </div>
+        </div>
+        <%- include('footer'); -%>
 </body>
+
 </html>
