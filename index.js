@@ -77,7 +77,8 @@ app.post('/login', function(req, res) {
     })
 
     res.render('index', {
-        user: userLogin.user
+        user: userLogin.user,
+        tienDaTuThien: 0
     })
     return
 });
@@ -170,13 +171,21 @@ app.post('/charity', function(req, res) {
     blockChain.createUser(userReceive)
     let tienDaTuThien = 0;
     // for (let i = 0; i < blockChain.chain.length; i++) {
-    //     if (blockChain.chain[i].block.transaction.fromAdress === userSend.pub_key)
-    //         tienDaTuThien += blockChain.chain[i].block.transaction.amount;
+    //     if (blockChain.chain[i].transactions.fromAdress === userSend.pub_key)
+    //         tienDaTuThien += blockChain.chain[i].transactions.amount;
     // }
+    blockChain.chain.forEach(block => {
+        block.transactions.forEach(transaction => {
+            if (transaction.fromAdress === userSend.pub_key) {
+                tienDaTuThien += transaction.amount;
+            }
+        });
+
+    });
     res.render('index', {
         blockChain: blockChain.chain,
         user: userSend,
-        tienDaTuThien: 9
+        tienDaTuThien: tienDaTuThien
 
     })
 })
