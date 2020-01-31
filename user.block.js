@@ -20,12 +20,13 @@ class UserBlock {
 
     }
     hasValid() {
-
+        console.log('userblock file,vào method isvalid');
         if (!this.user.isValid()) {
-            return false
+            console.log('userblock file, method isvalid, đã vào if');
+            return false;
         }
-
-        return true
+        return true;
     }
 }
+
 module.exports = UserBlock

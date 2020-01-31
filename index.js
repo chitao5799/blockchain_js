@@ -17,7 +17,7 @@ const EC = require('elliptic').ec
 const ec = new EC('secp256k1')
 const key = ec.genKeyPair()
 
-//db
+
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
@@ -32,9 +32,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser('MY_SECCRET'))
 app.use(express.static(__dirname + '/scriptAndCss'));
-// view-engine
 app.set('view engine', 'ejs')
-    // app.set('view engine', 'pug')
 app.set('views', './views')
 
 // defination block chain
@@ -51,13 +49,16 @@ try {
 }
 try {
     if (fs.existsSync('./dbBlock.json')) {
-        //file exists
         blockChain.userChain = dbBlock.get('UserChain').value();
     }
 } catch (err) {
     console.error(err)
 }
+io.on('connection', function(socket) {
+    socket.on("dangky_click", function() {
 
+    });
+});
 
 app.get('/', function(req, res) {
     res.render('login.ejs');
@@ -137,9 +138,7 @@ app.post('/register', function(req, res) {
         return;
 
     }
-    // console.log("hash last block:", blockChain.getLastBlock());
     blockChain.createUser(userRegister)
-        // console.log(blockChain.userChain)
     res.redirect('/login')
 });
 

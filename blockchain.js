@@ -1,21 +1,36 @@
-const Block = require('./block')
-const Transaction = require('./transaction')
-const UserBlock = require('./user.block')
-const User = require('./user')
+const Block = require('./block');
+const Transaction = require('./transaction');
+const UserBlock = require('./user.block');
+const User = require('./user');
 
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync('db.json'
-    /*, {
-         serialize: (data) => encrypt(JSON.stringify(data)),
+    /*, {  //lỗi 
+        serialize: (data) => encrypt(JSON.stringify(data)),
         deserialize: (data) => JSON.parse(decrypt(data))
         }*/
-)
-const db = low(adapter)
-db.defaults({ blockChain: [] }).write()
-const adapter2 = new FileSync('dbBlock.json')
-const dbBlock = low(adapter2)
-dbBlock.defaults({ UserChain: [] }).write()
+    /* , {//ko lỗi nhưng ko mã hóa data
+         format: {
+             deserialize: function(str) {
+                 var decrypted = cryptr.decrypt(str);
+                 var obj = JSON.parse(decrypted);
+                 return obj;
+             },
+             serialize: function(obj) {
+                 var str = JSON.stringify(obj);
+                 var encrypted = cryptr.encrypt(str);
+                 return encrypted;
+             }
+         }
+     }    */
+);
+const db = low(adapter);
+db.defaults({ blockChain: [] }).write();
+
+const adapter2 = new FileSync('dbBlock.json');
+const dbBlock = low(adapter2);
+dbBlock.defaults({ UserChain: [] }).write();
 
 class BlockChain {
     constructor() {
@@ -111,22 +126,29 @@ class BlockChain {
         this.userChain.push(userBlock)
     }
     isValidUserData() {
-        for (let i = 1; i < this.userChain.length; i++) {
-            const curentBlock = this.userChain[i]
-            const previousBlock = this.userChain[i - 1]
+        if (this.userChain.length > 2) {
+            for (let i = 1; i < this.userChain.length; i++) {
+                const curentBlock = this.userChain[i]
+                const previousBlock = this.userChain[i - 1]
 
-            if (!curentBlock.hasValid()) {
-                return false
-            }
+                // if (!curentBlock.hasValid())
+                if (!curentBlock.hasValid()) {
+                    console.log('blockchain file, method isvaliduserdata,đã vào if 1:');
+                    return false;
+                }
 
-            if (curentBlock.hash !== curentBlock.calculateHash()) {
-                return false
-            }
-            if (curentBlock.previousHash !== previousBlock.hash) {
-                return false
+                if (curentBlock.hash !== curentBlock.calculateHash()) {
+                    console.log('blockchain file, method isvaliduserdata,đã vào if 2:');
+                    return false;
+                }
+                if (curentBlock.previousHash !== previousBlock.hash) {
+                    console.log('blockchain file, method isvaliduserdata,đã vào if 3:');
+                    return false;
+                }
             }
         }
-        return true
+
+        return true;
     }
 }
 

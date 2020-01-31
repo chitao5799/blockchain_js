@@ -29,8 +29,8 @@
         }
         
         .row {
+            margin: auto;
             margin-top: 10px;
-            margin-left: 250px;
             width: 300px;
             height: 400px;
             background-color: #82db6e;
@@ -54,7 +54,7 @@
                         <input class="nhap-dl" id="txtUsername" type="text" name="username" placeholder="Tên đăng nhập">
                         <input class="nhap-dl" id="txtPassword" type="text" name="password" placeholder="Mật khẩu">
                         </br>
-                        <input type="submit" value="login" id="btnLogin" style="margin-top:3px;">
+                        <input type="submit" value="Đăng ký" id="btnLogin" style="margin-top:3px;padding: 0px 10px;">
                         <% if(locals.errs) { 
 						errs.forEach(function(err) { %>
                             <div class="alert alert-danger" role="alert">

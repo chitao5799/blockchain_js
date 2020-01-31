@@ -30,7 +30,8 @@ class Transaction {
     }
     isValid() {
         if (!this.fromAdress) {
-            return true
+            // return true
+            return false;
         }
 
         if (!this.signature || this.signature.length === 0) {
@@ -39,7 +40,7 @@ class Transaction {
 
         const publicKey = ec.keyFromPublic(this.fromAdress, 'hex') //trả về KeyPair{ }
             // console.log(' ec.keyFromPublic(this.fromAdress, hex)=', ec.keyFromPublic(this.fromAdress, 'hex'));
-            // console.log('publicKey.verify(this.calculateHash(), this.signature)=',publicKey.verify(this.calculateHash(), this.signature));//true
+            // console.log('verify transaction:',publicKey.verify(this.calculateHash(), this.signature));//true
         return publicKey.verify(this.calculateHash(), this.signature) //true
             // <KeyPair{ }>.verify(<chuỗi hash>,<chuỗi-đã-sign.toDER()>)
     }
