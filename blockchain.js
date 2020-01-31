@@ -5,7 +5,12 @@ const User = require('./user')
 
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
-const adapter = new FileSync('db.json')
+const adapter = new FileSync('db.json'
+    /*, {
+         serialize: (data) => encrypt(JSON.stringify(data)),
+        deserialize: (data) => JSON.parse(decrypt(data))
+        }*/
+)
 const db = low(adapter)
 db.defaults({ blockChain: [] }).write()
 const adapter2 = new FileSync('dbBlock.json')
@@ -21,17 +26,25 @@ class BlockChain {
         this.userChain = [this.createGenesisUser()]
     }
     createGenesisBlock() {
-        return new Block("11/23/2019", ["Genesis Block"], "0");
+        let block = new Block("11/23/2019", ["Genesis Block"], "0");
+        db.set('blockChain', []).write();
+        db.get('blockChain').push(block).write();
+        return block;
+
     }
     createGenesisUser() {
         let charity = new User("charity", "1", 0, 1);
-        return new UserBlock(charity, 0);
+        let userBlock = new UserBlock(charity, "0");
+        dbBlock.set('UserChain', []).write();
+        dbBlock.get('UserChain').push(userBlock).write();
+        // userBlock.mineBlock(2);
+        return userBlock;
     }
     getLastBlock() {
         return this.chain[this.chain.length - 1];
     }
     getLastUser() {
-        return this.userChain[this.userChain.length - 1];
+        return this.userChain[this.userChain.length - 1]; // .slice(-1).pop();
     }
     minePendingTransactions(miningRewardAdress) {
         let date = new Date()

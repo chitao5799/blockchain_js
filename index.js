@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var cookieParser = require('cookie-parser')
+const SHA256 = require('crypto-js/sha256')
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
@@ -22,10 +23,10 @@ const FileSync = require('lowdb/adapters/FileSync')
 
 const adapter = new FileSync('db.json')
 const db = low(adapter)
-db.defaults({ blockChain: [] }).write()
+    // db.defaults({ blockChain: [] }).write()
 const adapter2 = new FileSync('dbBlock.json')
 const dbBlock = low(adapter2)
-dbBlock.defaults({ UserChain: [] }).write()
+    // dbBlock.defaults({ UserChain: [] }).write()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -38,6 +39,25 @@ app.set('views', './views')
 
 // defination block chain
 let blockChain = new Blockchain();
+
+const fs = require('fs')
+try {
+    if (fs.existsSync('./db.json')) {
+        //file exists
+        blockChain.chain = db.get('blockChain').value();
+    }
+} catch (err) {
+    console.error(err)
+}
+try {
+    if (fs.existsSync('./dbBlock.json')) {
+        //file exists
+        blockChain.userChain = dbBlock.get('UserChain').value();
+    }
+} catch (err) {
+    console.error(err)
+}
+
 
 app.get('/', function(req, res) {
     res.render('login.ejs');
@@ -60,7 +80,7 @@ app.post('/login', function(req, res) {
     let userLogin = blockChain.userChain.find(block => {
         return block.user.username === req.body.username
     })
-    if (!userLogin || userLogin.user.password !== req.body.password) {
+    if (!userLogin || userLogin.user.password !== SHA256(req.body.password).toString()) {
         errs.push('sai tài khoản hoặc mật khẩu')
     }
 
@@ -77,6 +97,7 @@ app.post('/login', function(req, res) {
     })
 
     res.render('index', {
+        blockChain: blockChain.chain,
         user: userLogin.user,
         tienDaTuThien: 0
     })
@@ -116,10 +137,9 @@ app.post('/register', function(req, res) {
         return;
 
     }
-
+    // console.log("hash last block:", blockChain.getLastBlock());
     blockChain.createUser(userRegister)
-    console.log(blockChain.userChain)
-        // dbBlock.get('UserChain').push(blockChain.userChain).write();
+        // console.log(blockChain.userChain)
     res.redirect('/login')
 });
 
@@ -166,14 +186,10 @@ app.post('/charity', function(req, res) {
     userSend.money += blockChain.getBalanceOfAdress(fromAdress)
     userReceive.money += parseInt(blockChain.getBalanceOfAdress(toAdress))
 
-    blockChain.createUser(userSend)
+    // blockChain.createUser(userSend)
+    // blockChain.createUser(userReceive)
 
-    blockChain.createUser(userReceive)
     let tienDaTuThien = 0;
-    // for (let i = 0; i < blockChain.chain.length; i++) {
-    //     if (blockChain.chain[i].transactions.fromAdress === userSend.pub_key)
-    //         tienDaTuThien += blockChain.chain[i].transactions.amount;
-    // }
     blockChain.chain.forEach(block => {
         block.transactions.forEach(transaction => {
             if (transaction.fromAdress === userSend.pub_key) {

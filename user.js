@@ -6,7 +6,7 @@ const ec = new EC('secp256k1')
 class User {
     constructor(username, password, money, is_charity) {
         this.username = username;
-        this.password = password;
+        this.password = SHA256(password).toString();
         this.money = money;
         this.is_charity = is_charity;
         this.createKeyPair();
