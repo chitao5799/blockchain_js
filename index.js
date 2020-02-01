@@ -37,7 +37,7 @@ app.set('views', './views')
 
 // defination block chain
 let blockChain = new Blockchain();
-
+/*
 const fs = require('fs')
 try {
     if (fs.existsSync('./db.json')) {
@@ -53,13 +53,14 @@ try {
     }
 } catch (err) {
     console.error(err)
-}
+}*/
+/*
 io.on('connection', function(socket) {
     socket.on("dangky_click", function() {
 
     });
 });
-
+*/
 app.get('/', function(req, res) {
     res.render('login.ejs');
 });

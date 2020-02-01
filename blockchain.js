@@ -51,8 +51,9 @@ class BlockChain {
         let charity = new User("charity", "1", 0, 1);
         let userBlock = new UserBlock(charity, "0");
         dbBlock.set('UserChain', []).write();
+        userBlock.mineBlock(2);
         dbBlock.get('UserChain').push(userBlock).write();
-        // userBlock.mineBlock(2);
+
         return userBlock;
     }
     getLastBlock() {
@@ -130,19 +131,20 @@ class BlockChain {
             for (let i = 1; i < this.userChain.length; i++) {
                 const curentBlock = this.userChain[i]
                 const previousBlock = this.userChain[i - 1]
-
-                // if (!curentBlock.hasValid())
+                    // console.log("i là:", i);
+                    // console.log("current block la:", curentBlock);
+                    // console.log("prvious block la:", previousBlock);
+                    // if (!curentBlock.hasValid())
                 if (!curentBlock.hasValid()) {
-                    console.log('blockchain file, method isvaliduserdata,đã vào if 1:');
+                    // console.log('blockchain file, method isvaliduserdata,đã vào if 1:');
                     return false;
                 }
-
                 if (curentBlock.hash !== curentBlock.calculateHash()) {
-                    console.log('blockchain file, method isvaliduserdata,đã vào if 2:');
+                    // console.log('blockchain file, method isvaliduserdata,đã vào if 2:');
                     return false;
                 }
                 if (curentBlock.previousHash !== previousBlock.hash) {
-                    console.log('blockchain file, method isvaliduserdata,đã vào if 3:');
+                    // console.log('blockchain file, method isvaliduserdata,đã vào if 3:');
                     return false;
                 }
             }

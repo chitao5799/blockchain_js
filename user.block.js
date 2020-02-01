@@ -8,8 +8,11 @@ class UserBlock {
         this.nonce = 0;
     }
     calculateHash() {
-
-        return SHA256(this.previousHash + JSON.stringify(this.user) + this.nonce).toString();
+        var userTemp = JSON.parse(JSON.stringify(this.user));
+        // userTemp = ;
+        userTemp.money = 0; //thiết lập tiền của user về 0 để khi tính lại hash này ko bị sai ở 
+        //hàm isValidUserData trong file blockchain
+        return SHA256(this.previousHash + JSON.stringify(userTemp) + this.nonce).toString();
     }
     mineBlock(difficulty) {
 
@@ -20,9 +23,9 @@ class UserBlock {
 
     }
     hasValid() {
-        console.log('userblock file,vào method isvalid');
+        // console.log('userblock file,vào method isvalid');
         if (!this.user.isValid()) {
-            console.log('userblock file, method isvalid, đã vào if');
+            // console.log('userblock file, method isvalid, đã vào if');
             return false;
         }
         return true;

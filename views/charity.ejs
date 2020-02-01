@@ -27,25 +27,16 @@
                     </div>
                     <div class="form-group">
                         <label for="monney">Số tiền từ thiện</label>
-                        <input type="text" class="form-control" id="monney" placeholder="" name="amount">
+                        <input type="text" class="form-control" id="monney" placeholder="000" name="amount">
                     </div>
-                    <button type="submit" class="btn btn-primary" id='abcxyx'>Gửi</button>
+                    <button type="submit" class="btn btn-primary" id='gui'>Gửi</button>
                 </form>
             </div>
         </div>
     </div>
     <script>
-        const butDir = document.getElementById('abcxyx');
-        butDir.addEventListener('click', async(e) => {
-            const opts = {
-                type: 'openDirectory'
-            };
-            const handle = await window.chooseFileSystemEntries(opts);
-            const entries = await handle.getEntries();
-            for await (const entry of entries) {
-                const kind = entry.isFile ? 'File' : 'Directory';
-                console.log(kind, entry.name);
-            }
+        $('#gui').click(() => {
+            $('.form-control').val = 0;
         });
     </script>
 </body>
