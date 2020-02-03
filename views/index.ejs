@@ -10,6 +10,24 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>home</title>
+    <!-- <script src='socket.io/socket.io.js'></script>
+
+    <script>
+        import low from 'lowdb'
+        import LocalStorage from 'lowdb/adapters/LocalStorage'
+
+        const adapter = new LocalStorage('db');
+        const db = low(adapter);
+
+        db.defaults({ blockChained: [] }).write();
+        var socket = io('http://localhost:3000');
+
+        $(document).ready(function() {
+            $('#dangky').click(() => {
+                socket.emit('dangky_click');
+            });
+        });
+    </script> -->
 </head>
 
 <body>
@@ -60,12 +78,13 @@
                         <%
 							if(locals.blockChain) {
 						 		for(i = 1; i < blockChain.length; i++) {
-						 			blockChain[i].transactions.forEach(function(tran) { %>
+						 			blockChain[i].transactions.forEach(function(tran) {
+                                         if(tran.fromAdress ===user.pub_key){ %>
                         var body = '<tr><td>' + '<%= blockChain[i].timestamp %>' + '</td><td>' + '<%= tran.fromAdress %>' +
                             "</td><td>" + '<%= tran.toAdress %>' + '</td><td>' + '<%= tran.amount %>' + '</td></tr>'
                         $('tbody').append(body)
 
-                        <% })}} %>
+                        <%} })}} %>
                     </script>
                 </div>
             </div>

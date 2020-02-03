@@ -32,9 +32,14 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser('MY_SECCRET'))
 app.use(express.static(__dirname + '/scriptAndCss'));
+app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname));
 app.set('view engine', 'ejs')
 app.set('views', './views')
 
+app.get('/thu', function(req, res) {
+    res.render('thu.ejs');
+});
 // defination block chain
 let blockChain = new Blockchain();
 /*
@@ -54,13 +59,8 @@ try {
 } catch (err) {
     console.error(err)
 }*/
-/*
-io.on('connection', function(socket) {
-    socket.on("dangky_click", function() {
 
-    });
-});
-*/
+
 app.get('/', function(req, res) {
     res.render('login.ejs');
 });
@@ -105,11 +105,34 @@ app.post('/login', function(req, res) {
     })
     return
 });
+app.get('/index', function(req, res) {
+    let blockFind = blockChain.userChain.find(block => {
+        return block.user.username === req.signedCookies.username
+    })
+    let blockUser = blockChain.userChain.lastIndexOf(blockFind)
 
+    let userLogin = blockChain.userChain[blockUser];
+    let tienDaTuThien = 0;
+    blockChain.chain.forEach(block => {
+        block.transactions.forEach(transaction => {
+            if (transaction.fromAdress === userLogin.user.pub_key) {
+                tienDaTuThien += transaction.amount;
+            }
+        });
+
+    });
+    res.render('index', {
+        blockChain: blockChain.chain,
+        user: userLogin.user,
+        tienDaTuThien: tienDaTuThien
+    });
+});
 app.get('/register', function(req, res) {
     res.render('register');
 });
-
+app.get('/AllTransactions', function(req, res) {
+    res.render('allTransaction.ejs');
+});
 app.post('/register', function(req, res) {
     let userData = blockChain.userChain
     let errs = []
@@ -156,7 +179,7 @@ app.get('/charity', function(req, res) {
         charitys: charitys
     })
 })
-
+var isPendTransMined = 0;
 app.post('/charity', function(req, res) {
 
     let blockFind = blockChain.userChain.find(block => {
@@ -206,6 +229,12 @@ app.post('/charity', function(req, res) {
     })
 })
 
+io.on('connection', function(socket) {
+    socket.on("getData", function() {
+        // console.log("server bat đc su kien click o client")
+        socket.emit("sendData", { blockchain: blockChain.chain });
+    });
+});
 
 http.listen(3000, function() {
     console.log('listening on *:3000');

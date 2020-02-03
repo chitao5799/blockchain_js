@@ -4,61 +4,31 @@
       "user": {
         "username": "charity",
         "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-        "money": 7935,
+        "money": 0,
         "is_charity": 1,
         "hashed": "2115afb9fbbf6aed59aa621d3c5292b6c56a08d251e06bdf48edc07d513e7dc3",
-        "private_key": "575d1223865bf9811b641c09c1c6a240bce042075d56d4be5ce1b673bf838dcb",
-        "pub_key": "04553d5a1841e5ab8a24165ecc600875ca154edc667260b51ecea088197c3d993cd90e077f72e120e42b66d845ce97c5c1c949b4df650caeead9494f8300881381",
-        "signature": "3044022046d09eb2b1b21edae194367d691a32688c24a491a82641c29734792b2abdb87a022074b1fcbfb85f222c32c8abf10cffc4a4e5e56b4a0aac5fe95cae77226d126c15"
+        "private_key": "335801323c3b7c1faab85ae9a900d864f4862812dc2ab42bcc1ba8d0270803d5",
+        "pub_key": "04d76435ce4dd39986388bd467d9c623226fb34fd0f34e291a7ffe41ebce5be13b39921fa5767d92a8b8118b2f8fc9309620fc84471ce8edea00ac532352fa2f20",
+        "signature": "3046022100d676b6da3a275a59926dbb5a092a3d2bb8403da42f01966e6799321e55a040ce022100efef97e0b8db555aaccbc60bed5011bf75a786e829bfc6f04ec22dba837098ca"
       },
       "previousHash": "0",
-      "hash": "0076e01a641149829714108e898e0a8d17d7aec0f877e2cb125f9880c74d6c41",
-      "nonce": 391
+      "hash": "00475372e88607f8a224c99ac0e02d9d2138afa76af1819415ed972149b5191c",
+      "nonce": 3
     },
     {
       "user": {
-        "username": "cc",
-        "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-        "money": 1270,
-        "is_charity": 0,
-        "hashed": "7226d1a0d0b3362ee227ae3898db0158d871008935dd21a32658717247361dd1",
-        "private_key": "cadbd8207b8e9742be376cf4941a63939a6304f063ade5aa011c35301bcaecb9",
-        "pub_key": "04e47677364281cfdb49447febb21bf8142170d67f79f9f0a4dce466abd7661f7fdf35d2c0d1f1813a30b2e9ca0567fecdccc750cb9e884af9a271b298c1e8407f",
-        "signature": "30440220487f9b4f6a357e48393af0937845b1afc491a67f4b069eaad56fdd913dcdddc1022047252134a19cf403a34a5ddd4343cf90b58f8583a305e19cea763c87d75c3a93"
-      },
-      "previousHash": "0076e01a641149829714108e898e0a8d17d7aec0f877e2cb125f9880c74d6c41",
-      "hash": "0099a086fbbdd2677b7733e8c2253fa7fa58d672baecfa10f69754bc4c4ed708",
-      "nonce": 45
-    },
-    {
-      "user": {
-        "username": "ki",
-        "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
-        "money": -6890,
-        "is_charity": 0,
-        "hashed": "534adad37e8e38a2c65dc9acc7405263ab59738c1276d7db996952728c9c4865",
-        "private_key": "5d6e05aadb98029641acc96eb4c795530b671f5ba9b41488f11b047d55197fa1",
-        "pub_key": "0471544acd356b231164721e17b1eed28cbe714f9fa41904844bb24f8e3c1e21234f690e29d7e5b22a05386fcefa9bfe5de6c6e7ee90044408ada1e614262790e2",
-        "signature": "3045022100af68a713b0b0dbf560ed5438e091723f23663854fe7eaa5d061f4d5d8a3c80fa02207ccda4ffdac888ae00db96a80087b9869a6769b99f1800fbf2357a3ccad9aae0"
-      },
-      "previousHash": "0099a086fbbdd2677b7733e8c2253fa7fa58d672baecfa10f69754bc4c4ed708",
-      "hash": "00ea4d33780ccc8d1a8b2e285116e6709ca1c22c3db0b370a3ce28a58c63c160",
-      "nonce": 65
-    },
-    {
-      "user": {
-        "username": "ui",
-        "password": "114bd151f8fb0c58642d2170da4ae7d7c57977260ac2cc8905306cab6b2acabc",
+        "username": "hai",
+        "password": "8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414",
         "money": 1000,
         "is_charity": 0,
-        "hashed": "33ce3508c4444ce8e918c2accf18c6daa9d7a3a25842cd2b711872e1a60b492d",
-        "private_key": "96e2d3a841638982ad703ca3f662dbbe543ef27ac63723cba31a27c0b7f335f1",
-        "pub_key": "04e3f1fe305e3b7ed11bebcda24028a84bb2dc3b6fdceb15b9a2c67c12ba7041069b876525a713309001a96f72adba4e46c05ef5fd11844ef4043e11366f5d3dfa",
-        "signature": "3046022100a0e58cb664eef63313a6c5d2dbfa9d63ef6ebf2a4002c9bb617a9f88f0e5ef6c0221009b33bcf1a989b1d783cc2ceedf4ec5097e6634b34267e0d8becc4987e63fe181"
+        "hashed": "8c715b9bd327462745099db74e0c989ee327eb38cfbf3dc7f304ebef2988381a",
+        "private_key": "ed54ff7506b1455bc892844a5404c1694fc4444d7a00968ddfc1757ea4174c0e",
+        "pub_key": "04bd2682dcdf657dce559150ded7480b534b35dbe7de78df83e86c49e1af434280fd22877c1732da9cbb7e085169d7357ffd70f61325132302a5ea3b93f27bf8d4",
+        "signature": "3046022100a6675a4aee68040c54a4bbcd9b21c4964b33627d8e683016fa7b28855708718b022100f7d69e6c0f6525fe333be60aeb3c27cf4bbfb6a45e8856c9886fd296757b85ed"
       },
-      "previousHash": "00ea4d33780ccc8d1a8b2e285116e6709ca1c22c3db0b370a3ce28a58c63c160",
-      "hash": "003478adce1da7905a33db13299e4512e1ab4dd027dd55f4b206d71884623ae9",
-      "nonce": 139
+      "previousHash": "00475372e88607f8a224c99ac0e02d9d2138afa76af1819415ed972149b5191c",
+      "hash": "0020d0ba3673d5bb0a09d2c087379f5cb46710af713684e3963f9c8653b83c14",
+      "nonce": 103
     }
   ]
 }

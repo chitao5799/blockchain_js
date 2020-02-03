@@ -9,35 +9,25 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>charity</title>
+    <script src="../transaction.js">
+    </script>
 </head>
 
 <body>
     <%- include('menuLogined'); -%>
         <div class="container" style="min-height:500px">
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <form action="/charity" method="post">
-                        <div class="form-group">
-                            <label for="charity-name">Tổ chức từ thiện</label>
-                            <select id="charity-name" name="charity_pub_key">
-              <% charitys.forEach(function(user) { %>
-                <option value="<%= user.pub_key %>"><%= user.username %></option>
-
-            <% }) %>
-            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="monney">Số tiền từ thiện</label>
-                            <input type="text" class="form-control" id="monney" placeholder="000" name="amount">
-                        </div>
-                        <button type="submit" class="btn btn-primary" id='gui'>Gửi</button>
-                    </form>
-                </div>
-            </div>
+            <form action="">
+                <input type="text" placeholder="from address" id="tu">
+                <input type="text" placeholder="to address" id="den">
+                <input type="text" placeholder="amount" id="amount">
+                <input type="submit" value="ok" id="song">
+            </form>
         </div>
         <script>
-            $('#gui').click(() => {
-                $('.form-control').val = 0;
+            $('#song').click(function() {
+                alert("bắt đc click");
+                var trans = new Transaction($('#tu').val(), $('#den').val(), $('#amount').val());
+                alert("tran vua tao:", trans);
             });
         </script>
         <%- include('footer'); -%>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <!-- integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" -->
+    <!-- <script src="jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <title>home</title>
+    <script src='socket.io/socket.io.js'></script>
+
+    <style>
+        .nut {
+            padding: 5px 10px;
+            color: antiquewhite;
+            background-color: #005dffe3;
+            width: 70px;
+            text-align: center;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        #buttons {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            margin-left: 50px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        var socket = io('http://127.0.0.1:3000');
+
+        socket.on("sendData", function(data) {
+            if (typeof(Storage) !== "undefined") {
+                localStorage.setItem("blockChained", JSON.stringify(data));
+
+            } else {
+                alert("Sorry, your browser does not support Web Storage...");
+            }
+
+            // alert("client bat đc sự kiện server emit");
+            // console.log("data send by server:", data);
+            var blockChainReaded = JSON.parse(localStorage.getItem("blockChained"));
+            var blockChainArray = blockChainReaded.blockchain;
+            // console.log("data đọc đc từ localstorage:", blockChainArray);
+            $('tbody').html('');
+            if (blockChainArray) {
+                for (i = 1; i < blockChainArray.length; i++) {
+                    blockChainArray[i].transactions.forEach(function(tran) {
+                        var body = '<tr>' +
+                            '<td>' + blockChainArray[i].timestamp + '</td>' +
+                            '<td>' + tran.fromAdress + "</td>" +
+                            "<td>" + tran.toAdress + '</td>' +
+                            '<td>' + tran.amount + '</td>' +
+                            '</tr>';
+                        $('tbody').append(body);
+
+                    })
+                }
+            } else {
+                alert("không vào if hiện blockchain");
+            }
+        });
+        $(document).ready(function() {
+            // alert("document ready");
+            $('#update').click(function() {
+                // alert("client bat đc sự kiện click");
+                socket.emit('getData');
+            });
+            $('#show').click(function() {
+                var blockChainReaded = JSON.parse(localStorage.getItem("blockChained"));
+                var blockChainArray = blockChainReaded.blockchain;
+                $('tbody').html('');
+                if (blockChainArray) {
+                    for (i = 1; i < blockChainArray.length; i++) {
+                        blockChainArray[i].transactions.forEach(function(tran) {
+                            var body = '<tr>' +
+                                '<td>' + blockChainArray[i].timestamp + '</td>' +
+                                '<td>' + tran.fromAdress + "</td>" +
+                                "<td>" + tran.toAdress + '</td>' +
+                                '<td>' + tran.amount + '</td>' +
+                                '</tr>';
+                            $('tbody').append(body);
+
+                        })
+                    }
+                } else {
+                    alert("blockchain is empty.");
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <%- include('menuLogined'); -%>
+        <div id="buttons">
+            <div id="update" class="nut">Update</div>
+            <div id="show" class="nut">Show</div>
+        </div>
+        <div class="container" style="min-height:800px">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <th>ngày</th>
+                            <th>từ</th>
+                            <th>tới</th>
+                            <th>số tiền</th>
+                        </thead>
+                        <tbody>
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <%- include('footer'); -%>
+</body>
+
+</html>
