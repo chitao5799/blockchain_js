@@ -10,6 +10,10 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>home</title>
+    <script src='socket.io/socket.io.js'></script>
+    <script>
+        var socket = io('http://127.0.0.1:3000');
+    </script>
     <!-- <script src='socket.io/socket.io.js'></script>
 
     <script>
@@ -28,6 +32,14 @@
             });
         });
     </script> -->
+    <script>
+        if (typeof(Storage) !== "undefined") {
+            var name = new String('<%=user.username%>');
+            localStorage.setItem("userName", name);
+        } else {
+            alert("Sorry, your browser does not support Web Storage...");
+        }
+    </script>
 </head>
 
 <body>

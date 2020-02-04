@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <!-- integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" -->
+    <!-- <script src="jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <title>home</title>
+    <script src='socket.io/socket.io.js'></script>
+    <script src="../scriptAndCss/blockchainClient.js"></script>
+
+    <style>
+        .nut {
+            padding: 5px 10px;
+            color: antiquewhite;
+            background-color: #005dffe3;
+            width: 70px;
+            text-align: center;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        #buttons {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            margin-left: 50px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        var socket = io('http://127.0.0.1:3000');
+
+        let blockChain = new BlockChain();
+        var mineClicked = false;
+
+        socket.on("serverSendPendTrans", function(data) {
+            // console.log('trans gui tu server:', data);
+            // alert("server gửi các giao dịch đang chờ sử lý.");
+            blockChain.pendingTransactions = data;
+            mineClicked = false;
+            localStorage.setItem("pendingTransactions", JSON.stringify({
+                pendTrans: data
+            }));
+            $('tbody').html('');
+            data.forEach(function(tran) {
+                var body = '<tr>' +
+                    '<td>' + tran.fromAdress + "</td>" +
+                    "<td>" + tran.toAdress + '</td>' +
+                    '<td>' + tran.amount + '</td>' +
+                    '</tr>';
+                $('tbody').append(body);
+
+            });
+        });
+        socket.on('server_send_block_just_mine', function(data) {
+            localStorage.setItem("pendingTransactions", JSON.stringify({
+                pendTrans: []
+            }));
+            $('tbody').html('');
+            blockChain.chain = [];
+            // console.log('user nhan block vua mine tu server:', data);
+            var blockChainReaded = JSON.parse(localStorage.getItem("blockChained"));
+            blockChain.chain = blockChainReaded.blockchain;
+            blockChain.chain.push(data);
+            localStorage.setItem("blockChained", JSON.stringify({
+                blockchain: blockChain.chain
+            }));
+
+        });
+        socket.on('userPublicKey', function(data) {
+            // blockChain.chain=[];
+            if (blockChain.pendingTransactions.length != 0)
+                blockChain.minePendingTransactions(data);
+            else {
+                alert('no pending transaction.');
+                return;
+            }
+            localStorage.setItem("pendingTransactions", JSON.stringify({
+                pendTrans: []
+            }));
+
+            // console.log("block vừa đc đào bởi user:", blockChain.chain); //
+            /*  let blockTemp= blockChain.chain;
+              var blockChainReaded = JSON.parse(localStorage.getItem("blockChained"));
+              var blockChainArray = blockChainReaded.blockchain;
+              blockChain.chain=blockChainArray;
+              blockChain.chain.push(blockTemp);
+              localStorage.setItem("blockChained", JSON.stringify({
+                  blockchain: blockChain.chain
+              }));
+              */
+            socket.emit("userSendBlockJustMine", {
+                blockMined: blockChain.chain[blockChain.chain.length - 1],
+                userName: localStorage.getItem("userName")
+            });
+            blockChain.pendingTransactions = [];
+            $('tbody').html('');
+
+        });
+
+        $(document).ready(function() {
+            $('#mine').click(() => {
+                if (mineClicked == false) {
+                    socket.emit("userName_mine", localStorage.getItem("userName"));
+                    // alert('clent click mine block'); //
+                    mineClicked = true;
+                }
+            });
+
+            $('#show').click(() => {
+                var pendTransReaded = JSON.parse(localStorage.getItem("pendingTransactions"));
+                var pendTransArray = pendTransReaded.pendTrans;
+                $('tbody').html('');
+                pendTransArray.forEach(function(tran) {
+                    var body = '<tr>' +
+                        '<td>' + tran.fromAdress + "</td>" +
+                        "<td>" + tran.toAdress + '</td>' +
+                        '<td>' + tran.amount + '</td>' +
+                        '</tr>';
+                    $('tbody').append(body);
+
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <%- include('menuLogined'); -%>
+        <div id="buttons">
+            <div id="show" class="nut">Show</div>
+            <div id="mine" class="nut">Mine</div>
+        </div>
+        <div class="container" style="min-height:800px">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <th>từ</th>
+                            <th>tới</th>
+                            <th>số tiền</th>
+                        </thead>
+                        <tbody>
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <%- include('footer'); -%>
+</body>
+
+</html>
