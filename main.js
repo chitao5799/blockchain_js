@@ -44,6 +44,7 @@ app.get('/thu', function(req, res) {
 let blockChain = new Blockchain();
 var Transactions = []; //lưu các trans chưa ký.
 var pendingTransactionsTemporary = [];
+var login_thanh_cong = false;
 /*
 const fs = require('fs')
 try {
@@ -99,7 +100,7 @@ app.post('/login', function(req, res) {
     res.cookie('username', userLogin.user.username, {
         signed: true
     })
-
+    login_thanh_cong = true;
     res.render('index', {
         blockChain: blockChain.chain,
         user: userLogin.user,
@@ -169,8 +170,10 @@ app.post('/register', function(req, res) {
         return;
 
     }
-    blockChain.createUser(userRegister)
-    res.redirect('/login')
+    blockChain.createUser(userRegister);
+
+    res.redirect('/login');
+
 });
 
 app.get('/charity', function(req, res) {
@@ -241,6 +244,11 @@ app.post('/charity', function(req, res) {
 var blockMinedByClient = false;
 var numerical_order_userSendBlock = 0;
 io.on('connection', function(socket) {
+    if (login_thanh_cong == true) {
+        login_thanh_cong = false;
+        // console.log('login thành công server gửi chain.');
+        socket.emit('send_data_when_login', { blockchain: blockChain.chain });
+    }
     socket.on("getData", function() {
         socket.emit("sendData", { blockchain: blockChain.chain });
     });
@@ -297,7 +305,10 @@ io.on('connection', function(socket) {
 
         }
         // console.log("public key la:", publicKey);
-        socket.emit('userPublicKey', publicKey);
+        socket.emit('userPublicKey', {
+            pubKey: publicKey,
+            latestBlock: blockChain.chain[blockChain.chain.length - 1]
+        });
     });
 });
 

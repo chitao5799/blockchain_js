@@ -45,6 +45,7 @@
         socket.on("serverSendPendTrans", function(data) {
             // console.log('trans gui tu server:', data);
             // alert("server gửi các giao dịch đang chờ sử lý.");
+
             blockChain.pendingTransactions = data;
             mineClicked = false;
             localStorage.setItem("pendingTransactions", JSON.stringify({
@@ -78,9 +79,21 @@
         });
         socket.on('userPublicKey', function(data) {
             // blockChain.chain=[];
-            if (blockChain.pendingTransactions.length != 0)
-                blockChain.minePendingTransactions(data);
-            else {
+            if (blockChain.pendingTransactions.length != 0) {
+                //-----------------------
+                //thêm vào blockChain.chain ở client cái block cuối để lấy privioushash trong hàm minePendingTransactions              
+                //-----------------------
+                //cách 1 : lấy ở block cuối của client
+                // var blockChainReaded = JSON.parse(localStorage.getItem("blockChained"));
+                // blockChain.chain = blockChainReaded.blockchain; || = blockChainReaded.blockchain[blockChainReaded.blockchain.lenght-1]; 
+                // console.log('chain hien tai:', blockChain.chain);
+                // console.log('privious hash:', blockChain.getLastBlock().hash);
+
+                blockChain.chain = [];
+                blockChain.chain.push(data.latestBlock); //cách 2:block cuối ở server
+                // console.log(blockChain.chain);
+                blockChain.minePendingTransactions(data.pubKey);
+            } else {
                 alert('no pending transaction.');
                 return;
             }
@@ -88,8 +101,11 @@
                 pendTrans: []
             }));
 
-            // console.log("block vừa đc đào bởi user:", blockChain.chain); //
-            /*  let blockTemp= blockChain.chain;
+            //-----------------------
+            // cách này là thêm block vừa đào đc ở client vào luôn chain ở localStroage ở client. cách khác là 
+            //gửi chain vừa đào đc cho server và server gửi lại cho tất cả client bào gồm cả client vừa đào đc.
+            //-----------------------
+            /*  let blockTemp= blockChain.chain[blockChain.chain.lenght-1];
               var blockChainReaded = JSON.parse(localStorage.getItem("blockChained"));
               var blockChainArray = blockChainReaded.blockchain;
               blockChain.chain=blockChainArray;
