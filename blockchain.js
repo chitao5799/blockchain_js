@@ -68,6 +68,7 @@ class BlockChain {
         let block = new Block(curentTime, this.pendingTransactions)
         block.previousHash = this.getLastBlock().hash
         block.mineBlock(this.difficulty)
+
         db.get('blockChain').push(block).write();
         this.chain.push(block)
 

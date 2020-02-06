@@ -92,10 +92,19 @@
                 blockChain.chain = [];
                 blockChain.chain.push(data.latestBlock); //cách 2:block cuối ở server
                 // console.log(blockChain.chain);
+
                 blockChain.minePendingTransactions(data.pubKey);
             } else {
-                alert('no pending transaction.');
-                return;
+                if (JSON.parse(localStorage.getItem("pendingTransactions")).pendTrans.length === 0) {
+                    alert('no pending transaction.');
+                    return;
+                } else {
+                    blockChain.chain = [];
+                    blockChain.chain.push(data.latestBlock);
+                    blockChain.pendingTransactions = JSON.parse(localStorage.getItem("pendingTransactions")).pendTrans;
+                    blockChain.minePendingTransactions(data.pubKey);
+                }
+
             }
             localStorage.setItem("pendingTransactions", JSON.stringify({
                 pendTrans: []
@@ -129,7 +138,8 @@
                     socket.emit("userName_mine", localStorage.getItem("userName"));
                     // alert('clent click mine block'); //
                     mineClicked = true;
-                }
+                } else
+                    alert('bạn chỉ cần click 1 lần, hệ thống sẽ tự mine');
             });
 
             $('#show').click(() => {

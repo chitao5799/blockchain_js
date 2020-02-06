@@ -262,6 +262,15 @@ io.on('connection', function(socket) {
             // console.log('server nhận block just mine:', data.blockMined);
             pendingTransactionsTemporary = [];
             blockChain.chain.push(data.blockMined);
+            // console.log('ghi vào db.json');
+            // console.log('block just mine:', data.blockMined);
+
+            /**--------------Lỗi Khó Hiểu.
+             * block được mined đầu tiên là 1 object vừa đào và ko hề sai khi thử hiện ra màn hình, nhưng ko hiểu vì sao 
+             * khi ghi vào file db.json thì ghi cả các block được đào từ những lần chạy thử chương trình lúc trước.
+             * từ block thứ 2 trở đi được mine thì lại ghi vào file bình thường.
+             * 
+             */
             db.get('blockChain').push(data.blockMined).write();
 
             let publicKey;

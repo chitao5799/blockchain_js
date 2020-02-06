@@ -21,6 +21,9 @@
                 //chỗ này chưa kiểm tra chain, nên kiểm tra lại chain
                 localStorage.setItem("blockChained", JSON.stringify(data));
                 // console.log(localStorage.getItem('blockChained'));
+                localStorage.setItem("pendingTransactions", JSON.stringify({
+                    pendTrans: []
+                }));
             } else {
                 alert("Sorry, your browser does not support Web Storage...");
             }
