@@ -27,6 +27,7 @@ db.defaults({ blockChain: [] }).write()
 const adapter2 = new FileSync('dbBlock.json')
 const dbBlock = low(adapter2)
 dbBlock.defaults({ UserChain: [] }).write()
+var write_file_block_mined_first_of_chain = false;
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -269,8 +270,17 @@ io.on('connection', function(socket) {
              * block được mined đầu tiên là 1 object vừa đào và ko hề sai khi thử hiện ra màn hình, nhưng ko hiểu vì sao 
              * khi ghi vào file db.json thì ghi cả các block được đào từ những lần chạy thử chương trình lúc trước.
              * từ block thứ 2 trở đi được mine thì lại ghi vào file bình thường.
-             * 
+             * lỗi là nó ghi vào dữ liệu lưu temporary của windows.
+             * cách khắc phục 1: chạy node main.js để refresh file db.json thành trống xong ctrl+c, xong chạy tiếp là đc
              */
+            //cách khắc phục 2 dùng hàm if này:
+            if (write_file_block_mined_first_of_chain == false) {
+                db.get('blockChain').push(data.blockMined).write();
+                write_file_block_mined_first_of_chain = true;
+                db.set('blockChain', []).write();
+                db.get('blockChain').push(blockChain.chain[0]).write();
+            }
+
             db.get('blockChain').push(data.blockMined).write();
 
             let publicKey;
