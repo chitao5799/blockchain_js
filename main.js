@@ -9,7 +9,7 @@ const Blockchain = require('./blockchain')
 const Block = require('./block')
 const Transaction = require('./transaction')
 const User = require('./user')
-
+var authenticate = require('./authenticate');
 
 var bodyParser = require('body-parser')
 
@@ -21,12 +21,16 @@ const key = ec.genKeyPair()
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
-const adapter = new FileSync('db.json')
-const db = low(adapter)
-db.defaults({ blockChain: [] }).write()
-const adapter2 = new FileSync('dbBlock.json')
-const dbBlock = low(adapter2)
-dbBlock.defaults({ UserChain: [] }).write()
+const adapter = new FileSync('./db.json')
+const db = low(adapter);
+db.defaults({ blockChain: [] }).write();
+
+
+const adapter2 = new FileSync('./dbBlock.json')
+const dbBlock = low(adapter2);
+dbBlock.defaults({ UserChain: [] }).write();
+
+
 var write_file_block_mined_first_of_chain = false;
 
 app.use(bodyParser.json())
@@ -63,7 +67,6 @@ try {
 } catch (err) {
     console.error(err)
 }*/
-
 
 app.get('/', function(req, res) {
     res.render('login.ejs');
@@ -109,7 +112,13 @@ app.post('/login', function(req, res) {
     })
     return
 });
-app.get('/index', function(req, res) {
+app.get('/logOut', function(req, res) {
+    res.cookie('username', '', {
+        signed: true
+    });
+    res.render('login');
+});
+app.get('/index', authenticate.auth, function(req, res) {
     let blockFind = blockChain.userChain.find(block => {
         return block.user.username === req.signedCookies.username
     })
@@ -136,7 +145,7 @@ app.get('/index', function(req, res) {
 app.get('/register', function(req, res) {
     res.render('register');
 });
-app.get('/AllTransactions', function(req, res) {
+app.get('/AllTransactions', authenticate.auth, function(req, res) {
     res.render('allTransaction.ejs');
 });
 app.post('/register', function(req, res) {
@@ -177,7 +186,7 @@ app.post('/register', function(req, res) {
 
 });
 
-app.get('/charity', function(req, res) {
+app.get('/charity', authenticate.auth, function(req, res) {
     var charitys = blockChain.userChain.filter(block => {
         if (block.user.is_charity == 1) {
             return block
@@ -190,7 +199,7 @@ app.get('/charity', function(req, res) {
         charitys: charitys
     })
 });
-app.get('/pendingTrans', function(req, res) {
+app.get('/pendingTrans', authenticate.auth, function(req, res) {
     res.render('pendingTrans');
 });
 
@@ -260,11 +269,10 @@ io.on('connection', function(socket) {
         if (numerical_order_userSendBlock === 1) {
             // socket.broadcast.emit('server_send_block_just_mine',data.blockMined);
             io.sockets.emit('server_send_block_just_mine', data.blockMined);
-            // console.log('server nhận block just mine:', data.blockMined);
+
             pendingTransactionsTemporary = [];
             blockChain.chain.push(data.blockMined);
-            // console.log('ghi vào db.json');
-            // console.log('block just mine:', data.blockMined);
+
 
             /**--------------Lỗi Khó Hiểu.
              * block được mined đầu tiên là 1 object vừa đào và ko hề sai khi thử hiện ra màn hình, nhưng ko hiểu vì sao 

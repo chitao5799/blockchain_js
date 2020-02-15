@@ -14,24 +14,24 @@
 </head>
 
 <body>
-    <%- include('menuLogined'); -%>
-        <div class="container" style="min-height:500px">
-            <form action="">
-                <input type="text" placeholder="from address" id="tu">
-                <input type="text" placeholder="to address" id="den">
-                <input type="text" placeholder="amount" id="amount">
-                <div id="song">ok</div>
-            </form>
-        </div>
-        <script>
-            $('#song').click(function() {
-                alert("bắt đc click");
-                var trans = new Transaction($('#tu').val(), $('#den').val(), parseInt($('#amount').val()));
-                console.log("tran vua tao:", trans);
-                console.log("tinh hash la:", trans.calculateHash());
-            });
-        </script>
-        <%- include('footer'); -%>
+    <!-- <%- include('menuLogined'); -%> -->
+    <div class="container" style="min-height:500px">
+        <form action="">
+            <input type="text" placeholder="from address" id="tu">
+            <input type="text" placeholder="to address" id="den">
+            <input type="text" placeholder="amount" id="amount">
+            <div id="song">ok</div>
+        </form>
+    </div>
+    <script>
+        $('#song').click(function() {
+            alert("bắt đc click");
+            var trans = new Transaction($('#tu').val(), $('#den').val(), parseInt($('#amount').val()));
+            console.log("tran vua tao:", trans);
+            console.log("tinh hash la:", trans.calculateHash());
+        });
+    </script>
+    <!-- <%- include('footer'); -%> -->
 </body>
 
 </html>

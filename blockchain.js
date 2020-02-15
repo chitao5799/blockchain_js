@@ -5,7 +5,7 @@ const User = require('./user');
 
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('db.json'
+const adapter = new FileSync('./db.json'
     /*, {  //lỗi 
         serialize: (data) => encrypt(JSON.stringify(data)),
         deserialize: (data) => JSON.parse(decrypt(data))
@@ -28,7 +28,7 @@ const adapter = new FileSync('db.json'
 const db = low(adapter);
 db.defaults({ blockChain: [] }).write();
 
-const adapter2 = new FileSync('dbBlock.json');
+const adapter2 = new FileSync('./dbBlock.json');
 const dbBlock = low(adapter2);
 dbBlock.defaults({ UserChain: [] }).write();
 
