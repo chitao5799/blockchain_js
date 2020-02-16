@@ -103,8 +103,11 @@ class BlockChain {
         return balance
     }
     isChainValid() {
+        if (this.chain.length === 1) {
+            return true;
+        }
         for (let i = 1; i < this.chain.length; i++) {
-            const curentBlock = this.chain[i]
+            const curentBlock = Object.assign(new Block, this.chain[i]);
             const previousBlock = this.chain[i - 1]
 
             if (!curentBlock.hasValidTransactions()) {

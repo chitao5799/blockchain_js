@@ -29,9 +29,9 @@ class Transaction {
         this.signature = sig.toDER('hex')
     }
     isValid() {
-        if (!this.fromAdress) {
-            // return true
-            return false;
+        if (this.fromAdress == null) { //from address có thể null với trans  có phần thưởng khi mine
+            return true
+
         }
 
         if (!this.signature || this.signature.length === 0) {
@@ -41,8 +41,10 @@ class Transaction {
         const publicKey = ec.keyFromPublic(this.fromAdress, 'hex') //trả về KeyPair{ }
             // console.log(' ec.keyFromPublic(this.fromAdress, hex)=', ec.keyFromPublic(this.fromAdress, 'hex'));
             // console.log('verify transaction:',publicKey.verify(this.calculateHash(), this.signature));//true
-        return publicKey.verify(this.calculateHash(), this.signature) //true
-            // <KeyPair{ }>.verify(<chuỗi hash>,<chuỗi-đã-sign.toDER()>)
+        var isVerify = publicKey.verify(this.calculateHash(), this.signature);
+        // console.log('is verify:', isVerify);
+        return isVerify; //true
+        // <KeyPair{ }>.verify(<chuỗi hash>,<chuỗi-đã-sign.toDER()>)
     }
 
 }

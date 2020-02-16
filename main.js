@@ -264,30 +264,23 @@ io.on('connection', function(socket) {
     });
 
     socket.on("userSendBlockJustMine", function(data) {
+
         //---------kiểm tra tính đúng đắn của block just mine by client 
-        /*let trans = [];
-        data.blockMined.transactions.forEach((element) => {
-            let tran = new Transaction(element.fromAdress, element.toAdress, element.amount);
-            tran.signature = element.signature;
-            trans.push(tran);
-        });
-        let newBlock = new Block(data.blockMined.timestamp, trans, data.blockMined.previousHash);
-        newBlock.hash = data.blockMined.hash;
-        newBlock.previousHash = data.blockMined.previousHash;
-        newBlock.nonce = data.blockMined.nonce;
-        //newBlock = data.blockMined;
+
+        var newBlock = Object.assign(new Block(), data.blockMined);
+
         let previousBlock = blockChain.chain[blockChain.chain.length - 1];
 
         for (var i = 0; i < pendingTransactionsTemporary.length; i++) {
-            if (data.blockMined.transactions[i].fromAdress != pendingTransactionsTemporary[i].fromAdress) {
+            if (newBlock.transactions[i].fromAdress != pendingTransactionsTemporary[i].fromAdress) {
                 console.log('from address of transaction ', i + 1, ' of block just mine is wrong');
                 return;
             }
-            if (data.blockMined.transactions[i].toAdress != pendingTransactionsTemporary[i].toAdress) {
+            if (newBlock.transactions[i].toAdress != pendingTransactionsTemporary[i].toAdress) {
                 console.log('to address of transaction ', i + 1, ' of block just mine is wrong');
                 return;
             }
-            if (data.blockMined.transactions[i].amount != pendingTransactionsTemporary[i].amount) {
+            if (newBlock.transactions[i].amount != pendingTransactionsTemporary[i].amount) {
                 console.log('amount of transaction ', i + 1, ' of block just mine is wrong');
                 return;
             }
@@ -304,7 +297,7 @@ io.on('connection', function(socket) {
         if (newBlock.previousHash !== previousBlock.hash) {
             console.log('block just mine is wrong previoushash.');
             return;
-        }*/
+        }
         //---------
 
         numerical_order_userSendBlock++;
@@ -317,8 +310,8 @@ io.on('connection', function(socket) {
             blockChain.chain.push(data.blockMined);
 
             //
-            // if (!blockChain.isChainValid())
-            //     console.log('chain not valid');
+            if (!blockChain.isChainValid())
+                console.log('chain not valid');
             //
 
             /**--------------Lỗi Khó Hiểu.
