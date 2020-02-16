@@ -116,7 +116,7 @@ app.get('/logOut', function(req, res) {
     res.cookie('username', '', {
         signed: true
     });
-    res.render('login');
+    res.redirect('login');
 });
 app.get('/index', authenticate.auth, function(req, res) {
     let blockFind = blockChain.userChain.find(block => {
@@ -264,6 +264,49 @@ io.on('connection', function(socket) {
     });
 
     socket.on("userSendBlockJustMine", function(data) {
+        //---------kiểm tra tính đúng đắn của block just mine by client 
+        /*let trans = [];
+        data.blockMined.transactions.forEach((element) => {
+            let tran = new Transaction(element.fromAdress, element.toAdress, element.amount);
+            tran.signature = element.signature;
+            trans.push(tran);
+        });
+        let newBlock = new Block(data.blockMined.timestamp, trans, data.blockMined.previousHash);
+        newBlock.hash = data.blockMined.hash;
+        newBlock.previousHash = data.blockMined.previousHash;
+        newBlock.nonce = data.blockMined.nonce;
+        //newBlock = data.blockMined;
+        let previousBlock = blockChain.chain[blockChain.chain.length - 1];
+
+        for (var i = 0; i < pendingTransactionsTemporary.length; i++) {
+            if (data.blockMined.transactions[i].fromAdress != pendingTransactionsTemporary[i].fromAdress) {
+                console.log('from address of transaction ', i + 1, ' of block just mine is wrong');
+                return;
+            }
+            if (data.blockMined.transactions[i].toAdress != pendingTransactionsTemporary[i].toAdress) {
+                console.log('to address of transaction ', i + 1, ' of block just mine is wrong');
+                return;
+            }
+            if (data.blockMined.transactions[i].amount != pendingTransactionsTemporary[i].amount) {
+                console.log('amount of transaction ', i + 1, ' of block just mine is wrong');
+                return;
+            }
+        }
+        if (!newBlock.hasValidTransactions()) {
+            console.log('transaction is wrong');
+            return;
+        }
+
+        if (newBlock.hash !== newBlock.calculateHash()) {
+            console.log('block just mine is wrong hash.');
+            return;
+        }
+        if (newBlock.previousHash !== previousBlock.hash) {
+            console.log('block just mine is wrong previoushash.');
+            return;
+        }*/
+        //---------
+
         numerical_order_userSendBlock++;
         blockMinedByClient = true;
         if (numerical_order_userSendBlock === 1) {
@@ -273,6 +316,10 @@ io.on('connection', function(socket) {
             pendingTransactionsTemporary = [];
             blockChain.chain.push(data.blockMined);
 
+            //
+            // if (!blockChain.isChainValid())
+            //     console.log('chain not valid');
+            //
 
             /**--------------Lỗi Khó Hiểu.
              * block được mined đầu tiên là 1 object vừa đào và ko hề sai khi thử hiện ra màn hình, nhưng ko hiểu vì sao 
