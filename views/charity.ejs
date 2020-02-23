@@ -13,25 +13,32 @@
     <script>
         var socket = io('http://127.0.0.1:3000');
     </script>
+    <style>
+        #main-menu li #a3 {
+            margin: 8px 15px;
+            text-transform: uppercase;
+            font-size: 14px;
+            /* width: fit-content; */
+            padding-bottom: 8px;
+            border-bottom: 6px solid green;
+        }
+    </style>
 </head>
 
 <body>
     <%- include('menuLogined'); -%>
-        <div class="container" style="min-height:500px">
+        <div class="container" style="min-height:500px;margin-top: 20px;">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <form action="/charity" method="post">
                         <div class="form-group">
-                            <label for="charity-name">Tổ chức từ thiện</label>
+                            <label for="charity-name">Người nhận:</label>
                             <select id="charity-name" name="charity_pub_key">
-              <% charitys.forEach(function(user) { %>
-                <option value="<%= user.pub_key %>"><%= user.username %></option>
-
-            <% }) %>
-            </select>
+                                <!--  -->
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="monney">Số tiền từ thiện</label>
+                            <label for="monney">Số tiền:</label>
                             <input type="text" class="form-control" id="monney" placeholder="000" name="amount">
                         </div>
                         <button type="submit" class="btn btn-primary" id='gui'>Gửi</button>
@@ -39,9 +46,25 @@
                 </div>
             </div>
         </div>
+        <span id='variableJSON' hidden>
+            <%= JSON.stringify(users); %>
+        </span>
         <script>
+            if ("<%= err %>" != "")
+                alert("<%= err %>");
             $('#gui').click(() => {
                 $('.form-control').val = 0;
+            });
+            var users = JSON.parse($('#variableJSON').text());
+            $('#variableJSON').remove();
+            users.forEach(function(user) {
+                if (user.username != localStorage.getItem("userName")) {
+                    var dl = '<option value="' + user.pub_key + '">' + user.username + '</option>';
+                    $("#charity-name").append(dl);
+                    // var option=document.createElement('option');
+                    // var text=option.setAttribute("value",user.pub_key);
+
+                }
             });
         </script>
         <%- include('footer'); -%>

@@ -55,66 +55,104 @@
             alert("Sorry, your browser does not support Web Storage...");
         }
     </script>
+    <style>
+        #main-menu li #a1 {
+            margin: 8px 15px;
+            text-transform: uppercase;
+            font-size: 14px;
+            /* width: fit-content; */
+            padding-bottom: 8px;
+            border-bottom: 6px solid green;
+        }
+        
+        #dulieu tr td:nth-child(1) {
+            max-width: 80px;
+            width: 50px;
+        }
+        
+        #head h4 {
+            font-size: 1.5rem;
+            max-width: 1300px;
+            word-wrap: break-word;
+        }
+        
+        #bang {
+            margin-left: -88px;
+            width: 1300px;
+            margin-top: 20px;
+        }
+        
+        #dulieu tr td:nth-child(2),
+        #dulieu tr td:nth-child(3) {
+            max-width: 500px;
+            word-wrap: break-word;
+            overflow: hidden;
+        }
+        
+        #dulieu tr td:nth-child(4) {
+            max-width: 100px;
+        }
+    </style>
 </head>
 
 <body>
     <%- include('menuLogined'); -%>
         <div class="container" style="min-height:800px">
-            <div class="row">
-                <div class="col-md-3">
 
-                    <h3>xin chào:
-                        <%= user.username  %>
-                    </h3>
-                    <h4>public key:
-                        <%= user.pub_key  %>
-                    </h4>
-                    <h5 id="balance">số dư tài khoản:
-                        <%= user.money  %>
-                    </h5>
-                    <h5>số tiền bạn đã từ thiện:
-                        <%= locals.tienDaTuThien  %>
-                    </h5>
-                </div>
+            <div id="head">
+
+                <h3>xin chào:
+                    <%= user.username  %>
+                </h3>
+                <h4>public key:
+                    <%= user.pub_key  %>
+                </h4>
+                <h5 id="balance">số dư tài khoản:
+                    <%= user.money  %>
+                </h5>
+                <h5>số tiền bạn đã tiêu:
+                    <%= locals.tienDaTuThien  %>
+                </h5>
+
             </div>
 
-            <div class="row">
-                <div class="col-md-3">
-                    <button id="btnCharity">
-					<a href="/charity">Bắt đầu từ thiện</a>
+
+            <div>
+                <button id="btnCharity">
+					<a href="/charity">Bắt đầu chuyển tiền</a>
 				</button>
-                </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table table-bordered">
-                        <thead>
-                            <th>ngày</th>
-                            <th>từ</th>
-                            <th>tới</th>
-                            <th>số tiền</th>
-                        </thead>
-                        <tbody>
 
 
-                        </tbody>
+            <div id="bang">
+                <table class="table table-bordered">
+                    <thead>
+                        <th>ngày</th>
+                        <th>từ</th>
+                        <th>tới</th>
+                        <th>số tiền</th>
+                    </thead>
+                    <tbody id="dulieu">
 
-                    </table>
-                    <script type="text/javascript">
-                        <%
+
+                    </tbody>
+
+                </table>
+                <script type="text/javascript">
+                    <%
 							if(locals.blockChain) {
 						 		for(i = 1; i < blockChain.length; i++) {
 						 			blockChain[i].transactions.forEach(function(tran) {
                                          if(tran.fromAdress ===user.pub_key){ %>
-                        var body = '<tr><td>' + '<%= blockChain[i].timestamp %>' + '</td><td>' + '<%= tran.fromAdress %>' +
-                            "</td><td>" + '<%= tran.toAdress %>' + '</td><td>' + '<%= tran.amount %>' + '</td></tr>'
-                        $('tbody').append(body)
+                    var body = '<tr><td>' + '<%= blockChain[i].timestamp %>' + '</td><td>' + '<%= tran.fromAdress %>' +
+                        "</td><td>" + '<%= tran.toAdress %>' + '</td><td>' + '<%= tran.amount %>' + '</td></tr>'
+                    $('tbody').append(body)
 
-                        <%} })}} %>
-                    </script>
-                </div>
+                    <%} })}} %>
+                </script>
             </div>
+
         </div>
         <%- include('footer'); -%>
 </body>

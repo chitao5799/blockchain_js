@@ -187,16 +187,17 @@ app.post('/register', function(req, res) {
 });
 
 app.get('/charity', authenticate.auth, function(req, res) {
-    var charitys = blockChain.userChain.filter(block => {
-        if (block.user.is_charity == 1) {
-            return block
-        }
-    })
+    //  users = blockChain.userChain.filter(block => {
+    //     if (block.user.is_charity == 1) {
+    //         return block
+    //     }
+    // })
 
-    charitys = charitys.map(block => block.user)
-
+    var users = blockChain.userChain.map(block => block.user)
+        //console.log(users);
     res.render('charity', {
-        charitys: charitys
+        users: users,
+        err: ""
     })
 });
 app.get('/pendingTrans', authenticate.auth, function(req, res) {
@@ -214,8 +215,42 @@ app.post('/charity', function(req, res) {
     let userSend = blockChain.userChain[blockSend].user
     let fromAdress = userSend.pub_key //là user hiện tại trên trình duyệt đang ở trang /charity
     let toAdress = req.body.charity_pub_key //là user được chọn trong thẻ select
-    let amount = parseInt(req.body.amount)
+    let amount
 
+    if (!isNaN(req.body.amount) && req.body.amount !== "") {
+        amount = parseInt(req.body.amount);
+    } else {
+        var users = blockChain.userChain.map(block => block.user)
+        res.render('charity', {
+            users: users,
+            err: "Phải nhập số!"
+        });
+        return;
+    }
+
+    userSend.money = blockChain.getBalanceOfAdress(fromAdress) + 1000;
+
+    var amountTemp = 0;
+    for (let tran of blockChain.pendingTransactions) {
+        if (tran.fromAdress === fromAdress) {
+            amountTemp += tran.amount;
+        }
+    }
+    for (let tran of pendingTransactionsTemporary) {
+        if (tran.fromAdress === fromAdress) {
+            amountTemp += tran.amount;
+        }
+    }
+    //console.log("tong tạm :", amountTemp + amount);
+    // console.log("hiện còn:", userSend.money);
+    if (amountTemp + amount > userSend.money) {
+        var users = blockChain.userChain.map(block => block.user)
+        res.render('charity', {
+            users: users,
+            err: "Số tiền chuyển đi đang lớn hơn số dư hiện có!"
+        });
+        return;
+    }
     let transaction = new Transaction(fromAdress, toAdress, amount)
     transaction.signTransaction(ec.keyFromPrivate(userSend.private_key))
 
@@ -228,9 +263,8 @@ app.post('/charity', function(req, res) {
 
     let userReceive = blockChain.userChain[blockChain.userChain.lastIndexOf(blockReceive)].user
 
-    userSend.money = blockChain.getBalanceOfAdress(fromAdress) + 1000;
-    userReceive.money = parseInt(blockChain.getBalanceOfAdress(toAdress));
 
+    userReceive.money = parseInt(blockChain.getBalanceOfAdress(toAdress));
     // blockChain.createUser(userSend)
     // blockChain.createUser(userReceive)
 
